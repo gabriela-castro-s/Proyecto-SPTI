@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <typeAliases>
+        <typeAlias type='edu.eci.cvds.gestor.entities.Reservation' alias='Reservation'/>
+        <typeAlias type='edu.eci.cvds.gestor.entities.Resource' alias='Resource'/>
+        <typeAlias type='edu.eci.cvds.gestor.entities.User' alias='User'/>
+    </typeAliases>
+
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC" />
+            <dataSource type="POOLED">
+                <property name="driver" value="org.postgresql.Driver" />
+                <!--property name="url" value="jdbc:mysql://localhost:3306/video_rental"/! -->
+                <property name="url" value="jdbc:postgresql://ec2-52-201-124-168.compute-1.amazonaws.com:5432/d8ip4ni8t3737r?ssl=true&amp;sslfactory=org.postgresql.ssl.NonValidatingFactory&amp;sslmode=require" />
+                <property name="username" value="dflhmiuylzkjra" />
+                <property name="password" value="5d45003989e32a49f0d8829954280408442b8106a26a8c39aa9c688122206d03" />
+            </dataSource>
+        </environment>
+    </environments>
+
+    <mappers>
+        <mapper resource="mappers/ReservationMapper.xml"></mapper>
+        <mapper resource="mappers/ResourceMapper.xml"></mapper>
+        <mapper resource="mappers/UserMapper.xml"></mapper>
+    </mappers>
+
+</configuration>

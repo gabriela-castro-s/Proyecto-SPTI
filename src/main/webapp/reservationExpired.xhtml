@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <link rel = "icon" href ="https://observatics.edu.co/wp-content/uploads/sites/20/2019/06/Logo-Escuela-ingenier%C3%ADa.png"/>
+    <title>Reservas</title>
+    <style type="text/css">
+        body {
+            background-image:url('https://cdn.discordapp.com/attachments/771508386452734003/963929999612739604/bloquea.jpg');
+            background-attachment: fixed;
+            background-size: cover;
+        }
+        .tabla{
+            border-color: white;
+            color:white;
+        }
+        .titulo{
+            background-color:#ED7D31;
+        }
+        .valor{
+            color:black;
+        }
+        .ui-datatable tbody td{
+            background-color:#F8D7CD;
+        }
+        .boton{
+            background-color:#ED7D31;
+        }
+        .ui-paginator{
+            background-color:#ED7D31;
+            color:black;
+        }
+        .danger {
+            margin-left: 90%;
+            margin-button: 0;
+        }
+        .infoa {
+            margin-left: 5%;
+        }
+        .info {
+            margin-left: 5%;
+            width:200px
+        }
+        .ui-datatable .cheap {
+            background-color: #54a90a !important;
+            background-image: none !important;
+        }
+        .ui-filter-column .ui-column-customfilter .custom-filter {
+            width: 100%;
+            box-sizing: border-box;
+        }
+    </style>
+</h:head>
+<h:body>
+    <p:button value="Atras" outcome="resource"/>
+    <center><h1 style="background-color:#ED7D31; width:280px">Mis Reservas</h1></center>
+    <h:form>
+        <p:button value="Reservas Activas"  outcome="reservation"/>
+        <p:button value="Reservas Canceladas"  outcome="reservationsCancelled"/>
+        <p:dataTable id="reservation_table" var="reservations" value="#{ReservationBean.getReservationsUserExpired(LoginBean.email)}"
+                     rowStyleClass="#{reservations.status eq 'cancelada' ? 'cheap' : null}"
+                     paginator="true" scrollable="true" scrollHeight="500"
+                     paginatorTemplate="{CurrentPageReport}"
+                     currentPageReportTemplate="{totalRecords} reservas"
+                     widgetVar="reserveTable"
+                     emptyMessage="No existen datos con esa busqueda">
+            <p:column style="width:1rem">
+                <p:rowToggler/>
+            </p:column>
+            <p:column headerText="Nombre de Usuario" class="titulo" filterBy="#{reservations.getUname().getName()}" filterStyle="width:100px;" filterMatchMode="contains">
+                <div class="hijo"><h:outputText value="#{reservations.getUname().getName()}" class="valor"/></div>
+            </p:column>
+            <p:column headerText="Nombre de Recurso" class="titulo" filterBy="#{reservations.getResources().getName()}" filterStyle="width:100px;" filterMatchMode="contains">
+                <h:outputText value="#{reservations.getResources().getName()}" class="valor"/>
+            </p:column>
+            <p:column headerText="Fecha de solicitud" class="titulo">
+                <h:outputText value="#{reservations.date}" class="valor"/>
+            </p:column>
+            <p:column headerText="Hora y Fecha inicial" class="titulo">
+                <h:outputText value="#{reservations.startHour}" class="valor"/>
+            </p:column>
+            <p:column headerText="Hora y Fecha final" class="titulo">
+                <h:outputText value="#{reservations.finishHour}" class="valor"/>
+            </p:column>
+
+            <p:column headerText="Estado" class="titulo">
+                <h:outputText value="#{reservations.status}" class="valor"/>
+            </p:column>
+
+            <p:rowExpansion>
+                <center>
+                    <div class="valor">
+                        <!--                        <br></br>-->
+                        <div class="info">
+                            <strong>Descripcion:</strong>
+                            <div><span>#{reservations.getResources().getDescription()}</span>
+                            </div>
+                        </div>
+                        <br></br>
+                        <div class="info">
+                            <strong>Tipo Recurrencia:</strong>
+                            <div><span>#{reservations.recurrence}</span></div>
+                        </div>
+                        <br></br>
+                        <div class="info">
+                            <strong>Fecha Recurrencia:</strong>
+                            <div><span>#{reservations.recurrenceTime}</span></div>
+                        </div>
+                        <br></br>
+                        <div class="info">
+                            <strong>Ubicacion:</strong>
+                            <div><span>#{reservations.getResources().getLocation()}</span></div>
+                        </div>
+                    </div>
+                </center>
+            </p:rowExpansion>
+        </p:dataTable>
+    </h:form>
+</h:body>
+</html>

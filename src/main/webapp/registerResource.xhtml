@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <link rel = "icon" href ="https://observatics.edu.co/wp-content/uploads/sites/20/2019/06/Logo-Escuela-ingenier%C3%ADa.png"/>
+    <title> Reserve </title>
+    <style type="text/css">
+        body {
+
+            background-image:url('https://cdn.discordapp.com/attachments/771508386452734003/963929999612739604/bloquea.jpg');
+            background-attachment: fixed;
+            background-size: cover;
+
+        }
+
+
+
+        h1{
+        color: #ff6961;
+        font-size: 20px;
+         }
+
+        .icon{
+	      position: relative;
+          left: 650px;
+	      top: 20px;
+	      color: #ff6961;
+        }
+
+
+        .button{
+        border: none;
+        with: 10%;
+        color: #fff5ee;
+        font-size: 20px;
+        background: #ff6961;
+        padding: 10px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        center;
+
+    }
+    .button:hover{
+        background: #f80f00;
+    }
+
+
+
+
+
+
+
+</style>
+    <script src="https://kit.fontawesome.com/2626eb8df2.js" crossorigin="anonymous"></script>
+</h:head>
+<body>
+<h:form class="formulario" id="formulario">
+    <p:commandButton value="Atras" onclick="history.back()"/>
+    <p:messages id="messages" showDetail="true" closable="true">
+        <p:autoUpdate/>
+    </p:messages>
+    <center> <h1>Registrar Recurso</h1></center>
+    <div class="contenedor">
+        <div class="input-contenedor">
+            <i class="fa-solid fa-bookmark icon"></i>
+            <center><p:inputText  placeholder="Nombre" id= "name" type="String" binding= "#{name}"  class="form-control" style="width:10%; height:5%"/></center>
+        </div>
+        <div class="p-field p-col-12 p-md-4">
+            <div class="form-group">
+                <i class="fa-solid fa-location-dot icon"></i>
+                <center><h:selectOneMenu  value="#{ResourceBean.ubicacionSeleccionada}" id= "location" type="String" binding= "#{location}" class="form-control" style="width:11%; height:13%">
+                    <f:selectItems value="#{ResourceBean.getUbicacionDelRecurso()}" />
+                </h:selectOneMenu></center>
+
+            </div>
+        </div>
+        <div class="p-field p-col-12 p-md-4">
+            <div class="form-group">
+                <i class="fa-solid fa-landmark icon"></i>
+                <center><h:selectOneMenu value="#{ResourceBean.tipoSeleccionado}" id= "type" type="String" binding= "#{type}" class="form-control" style="width:11%; height:13%">
+                    <f:selectItems value="#{ResourceBean.getTiposDeRecursos()}" />
+                </h:selectOneMenu></center>
+            </div>
+        </div>
+        <div class="input-contenedor">
+            <i class="fa-solid fa-list-ol icon"></i>
+            <center><p:inputText  placeholder="capacidad" id= "capacity" type="number" binding= "#{capacity}"  class="form-control" style="width:10%; height:5%"/></center>
+        </div>
+        <div class="input-contenedor">
+            <i class="fa-solid fa-fingerprint icon"></i>
+            <center><p:inputText  placeholder="Id Interno" id= "internId" type="number" binding= "#{internId}"  class="form-control" style="width:10%; height:5%"/></center>
+        </div>
+        <div class="p-field">
+            <i class="fa-solid fa-audio-description icon"></i>
+            <center> <p:inputTextarea placeholder="Descripción" id= "description" type="String" binding= "#{description}"  class="form-control" style="width:10%; height:5%"/></center>
+        </div>
+        <div class="p-field p-col-12 p-md-4">
+            <div class="form-group">
+                <i class="fa-solid fa-check icon"></i>
+                <center><h:selectOneMenu value="#{ResourceBean.disponibilidadSeleccionada}" id= "available" type="boolean" binding= "#{available}"  class="form-control" >
+                    <f:selectItems value="#{ResourceBean.getRecursoDisponible()}" />
+                </h:selectOneMenu></center>
+            </div>
+        </div>
+    </div>
+    <center><h:commandButton value="Registrar"  actionListener="#{ResourceBean.register(name.value,location.value, type.value,capacity.value , internId.value, description.value, available.value)}"  update="formulario"  style="color:#fff5ee; background-color:#ff6961; width:10%; height:30%; font-size:80%; position:relative; top:40px" /></center>
+</h:form>
+</body>
+</html>

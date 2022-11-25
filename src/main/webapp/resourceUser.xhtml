@@ -1,0 +1,87 @@
+<!--
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Recursos</title>
+    <style type="text/css">
+        body {
+
+            background-image:url('https://cdn.discordapp.com/attachments/771508386452734003/963929999612739604/bloquea.jpg');
+            background-attachment: fixed;
+            background-size: cover;
+        }
+        .tabla{
+            border-color: white;
+            color:white;
+        }
+        .titulo{
+            background-color:#ED7D31;
+        }
+        .valor{
+            color:black;
+        }
+        .ui-datatable tbody td{
+            background-color:#F8D7CD;
+        }
+        .boton{
+            background-color:#ED7D31;
+        }
+        .ui-paginator{
+            background-color:#ED7D31;
+            color:black;
+        }
+        .danger {
+            margin-left: 90%;
+            margin-button: 0;
+        }
+
+</style>
+</h:head>
+<h:body>
+    <h:form id="form">
+        <div class="botones">
+            <p:commandButton class="danger" value="#{LoginBean.textLog()}" actionListener="#{LoginBean.actionButton()}" />
+        </div>
+        <center>
+            <h1 style="background-color:#ED7D31; width:500px">Recursos Biblioteca</h1>
+            <h2 style="background-color:#ED7D31; width:400px"><h:outputText rendered="#{LoginBean.showReserve}" value="#{LoginBean.consultUser(LoginBean.email).getName()}"/></h2>
+        </center>
+        <p:commandButton rendered="#{LoginBean.showReserve}" value="#{LoginBean.textReserve()}" style="margin-right: .5rem" actionListener="#{LoginBean.actionReserve()}"/>
+        <p:dataTable id="resource_table" var="resources" value="#{ResourceBean.resourcesUser}"  rowIndexVar="rowIndex"
+                     paginator="true" scrollable="true" scrollHeight="500"
+                     paginatorTemplate="{CurrentPageReport}"
+                     currentPageReportTemplate="{totalRecords} recursos"
+                     class="tabla" emptyMessage="No existen datos con esa busqueda" widgetVar="tablaRescusos" filteredValue="#{ResourceBean.filtroRecurso}">
+            <f:facet name="header">
+                <p:outputPanel>
+                    <h:outputText value="Buscar: " class="valor"/>
+                    <p:inputText id="globalFilter" onkeyup="PF('tablaRescusos').filter()" style="width: 150px;" placeholder="Ingresar Busqueda"/>
+                </p:outputPanel>
+            </f:facet>
+
+            <p:column headerText="Nombre" class="titulo" sortBy="#{resources.name}" filterBy="#{resources.name}" filterStyle="width:100px;" filterMatchMode="contains">
+                <div class="hijo"><h:outputText value="#{resources.name}" class="valor"/></div>
+            </p:column>
+            <p:column headerText="Tipo de recurso" class="titulo" sortBy="#{resources.type}" filterBy="#{resources.type}" filterStyle="width:100px;" filterMatchMode="contains">
+                <h:outputText value="#{resources.type}" class="valor"/>
+            </p:column>
+            <p:column headerText="Descripcion" class="titulo">
+                <h:outputText value="#{resources.description}" class="valor"/>
+            </p:column>
+            <p:column headerText="Biblioteca" class="titulo" sortBy="#{resources.location}" filterBy="#{resources.location}" filterStyle="width:100px" filterMatchMode="contains">
+                <h:outputText value="#{resources.location}" class="valor"/>
+            </p:column>
+            <p:column headerText="Unidades" class="titulo" sortBy="#{resources.capacity}" filterBy="#{resources.capacity}" filterStyle="width:100px" filterMatchMode="contains">
+                <h:outputText value="#{resources.capacity}" class="valor"/>
+            </p:column>
+            <p:column headerText="Reservar" class="titulo">
+                <p:button outcome="Schedule?recurso=#{rowIndex}" value="Ver horarios" class="boton" />
+            </p:column>
+        </p:dataTable>
+    </h:form>
+</h:body>
+</html>-->

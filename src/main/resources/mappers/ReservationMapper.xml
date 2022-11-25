@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="edu.eci.cvds.gestor.persistence.mybatis.mappers.ReservationMapper">
+
+    <select parameterType="map" id="consultReservations" resultMap="ReservationResult">
+        select
+        re.id_reserva,
+        re.fecha,
+        re.horaini,
+        re.horafin,
+        re.recurso,
+        re.carnet,
+        re.estado,
+        re.recurrencia,
+        re.fecharecurrencia
+
+        FROM RESERVAS re
+    </select>
+
+
+    <select parameterType="map" id="consultReservationsActive" resultMap="ReservationResult">
+        select
+        u.nombre as u_nombre,
+        re.nombre as re_nombre,
+        re.descripcion as re_descripcion,
+        re.ubicacion as re_ubicacion,
+        r.fecha,
+        r.horaini,
+        r.horafin,
+        r.estado,
+        r.recurrencia,
+        r.fecharecurrencia,
+        r.recurso,
+        r.carnet,
+        r.id_reserva
+
+        From usuarios u
+        JOIN reservas r ON r.carnet = u.carnet
+        JOIN recursos re ON re.id_recurso = r.recurso
+
+        WHERE r.estado = 'activa'
+
+        ORDER BY r.horaini;
+    </select>
+
+    <select parameterType="map" id="consultReservationsActiveByHour" resultMap="ReservationResult">
+        select
+        u.nombre as u_nombre,
+        re.nombre as re_nombre,
+        re.descripcion as re_descripcion,
+        re.ubicacion as re_ubicacion,
+        r.fecha,
+        r.horaini,
+        r.horafin,
+        r.estado,
+        r.recurrencia,
+        r.fecharecurrencia
+
+        From usuarios u
+        JOIN reservas r ON r.carnet = u.carnet
+        JOIN recursos re ON re.id_recurso = r.recurso
+
+        WHERE r.horaini = #{horaini} and r.recurso = #{recurso} and r.estado = 'activa'
+
+    </select>
+
+    <select parameterType="map" id="consultReservationsCancelled" resultMap="ReservationResult">
+        select
+        u.nombre as u_nombre,
+        re.nombre as re_nombre,
+        re.descripcion as re_descripcion,
+        re.ubicacion as re_ubicacion,
+        r.fecha,
+        r.horaini,
+        r.horafin,
+        r.estado,
+        r.recurrencia,
+        r.fecharecurrencia
+
+        From usuarios u
+        JOIN reservas r ON r.carnet = u.carnet
+        JOIN recursos re ON re.id_recurso = r.recurso
+
+        WHERE r.estado = 'cancelada'
+
+        ORDER BY r.horaini;
+    </select>
+
+    <select parameterType="map" id="consultReservationsExpired" resultMap="ReservationResult">
+        select
+        u.nombre as u_nombre,
+        re.nombre as re_nombre,
+        re.descripcion as re_descripcion,
+        re.ubicacion as re_ubicacion,
+        r.fecha,
+        r.horaini,
+        r.horafin,
+        r.estado,
+        r.recurrencia,
+        r.fecharecurrencia
+
+        From usuarios u
+        JOIN reservas r ON r.carnet = u.carnet
+        JOIN recursos re ON re.id_recurso = r.recurso
+
+        WHERE r.estado = 'vencida'
+
+        ORDER BY r.horaini;
+    </select>
+
+    <insert id="reserveResource" parameterType="map">
+        insert into Reservas(Fecha, Horaini, Horafin, recurso, carnet, recurrencia, fecharecurrencia,estado) values (#{fecha}, #{horaini}, #{horafin}, #{recurso}, #{carnet}, #{recurrencia}, #{fecharecurrencia},#{estado})
+    </insert>
+
+
+    <select parameterType="map" id="consultReservationsUser" resultMap="ReservationResult">
+        select
+        u.nombre as u_nombre,
+        re.nombre as re_nombre,
+        re.descripcion as re_descripcion,
+        re.ubicacion as re_ubicacion,
+        r.fecha,
+        r.horaini,
+        r.horafin,
+        r.estado,
+        r.recurrencia,
+        r.fecharecurrencia,
+        r.recurso,
+        r.carnet,
+        r.id_reserva
+
+        From usuarios u
+        JOIN reservas r ON r.carnet = u.carnet
+        JOIN recursos re ON re.id_recurso = r.recurso
+
+        WHERE u.correo = #{email} and r.estado = 'activa'
+
+        ORDER BY r.horaini;
+    </select>
+
+    <select parameterType="map" id="consultReservationsUserCancelled" resultMap="ReservationResult">
+        select
+        u.nombre as u_nombre,
+        re.nombre as re_nombre,
+        re.descripcion as re_descripcion,
+        re.ubicacion as re_ubicacion,
+        r.fecha,
+        r.horaini,
+        r.horafin,
+        r.estado,
+        r.recurrencia,
+        r.fecharecurrencia
+
+        From usuarios u
+        JOIN reservas r ON r.carnet = u.carnet
+        JOIN recursos re ON re.id_recurso = r.recurso
+
+        WHERE u.correo = #{email} and r.estado = 'cancelada'
+
+        ORDER BY r.horaini;
+    </select>
+
+    <select parameterType="map" id="consultReservationsUserExpired" resultMap="ReservationResult">
+        select
+        u.nombre as u_nombre,
+        re.nombre as re_nombre,
+        re.descripcion as re_descripcion,
+        re.ubicacion as re_ubicacion,
+        r.fecha,
+        r.horaini,
+        r.horafin,
+        r.estado,
+        r.recurrencia,
+        r.fecharecurrencia
+
+        From usuarios u
+        JOIN reservas r ON r.carnet = u.carnet
+        JOIN recursos re ON re.id_recurso = r.recurso
+
+        WHERE u.correo = #{email} and r.estado = 'vencida'
+
+        ORDER BY r.horaini;
+    </select>
+
+    <select parameterType="map" id="consultReservation" resultMap="ReservationResult">
+        select
+        u.nombre as u_nombre,
+        r.horaini,
+        r.horafin,
+        r.recurrencia
+
+        From reservas r
+        JOIN recursos re ON re.id_recurso = r.recurso
+        JOIN usuarios u ON u.carnet = r.carnet
+
+        WHERE re.id_recurso = #{id} and r.estado= 'activa'
+
+    </select>
+
+    <select id="recursosMasUsados" resultMap="ReservationResult">
+        SELECT
+        re.nombre as re_nombre,
+        COUNT(re.id_recurso) AS cantidad
+        FROM reservas r
+        JOIN recursos re on r.recurso = re.id_recurso
+        GROUP BY re.nombre
+        ORDER BY cantidad desc
+        FETCH FIRST 3 ROWS ONLY
+    </select>
+
+    <select id="recursosMenosUsados" resultMap="ReservationResult">
+        SELECT
+        re.nombre as re_nombre,
+        COUNT(re.id_recurso) AS cantidad
+        FROM reservas r
+        JOIN recursos re on r.recurso = re.id_recurso
+        GROUP BY re.nombre
+        ORDER BY cantidad asc
+        FETCH FIRST 3 ROWS ONLY
+    </select>
+
+    <select id="reservaPorCarrera" resultMap="ReservationResult">
+        SELECT
+        u.carrera as u_carrera,
+        COUNT(r.id_reserva) as cantidad
+        FROM reservas r
+        JOIN usuarios u ON u.carnet = r.carnet
+        where r.carnet = u.carnet
+        GROUP BY u.carrera
+        ORDER BY cantidad desc
+    </select>
+
+    <select id="reservaRecurrentes" resultMap="ReservationResult">
+        SELECT
+        re.nombre as re_nombre,
+        COUNT(r.id_reserva) AS cantidad
+        FROM Reservas r
+        JOIN recursos re on r.recurso = re.id_recurso
+        WHERE r.recurrencia != 'ONE_TIME'
+        group by re.nombre
+        limit 6;
+    </select>
+
+    <select id="reservasCanceladas" resultMap="ReservationResult">
+        SELECT
+        re.nombre as re_nombre,
+        COUNT(r.id_reserva) AS cantidad
+        FROM Reservas r
+        JOIN recursos re on r.recurso = re.id_recurso
+        WHERE r.estado = 'cancelada'
+        group by re.nombre
+    </select>
+
+    <select id="horarioMayorOcupacion" resultMap="ReservationResult">
+        SELECT
+        r.horaini,
+        r.horafin,
+        COUNT(r.horaini) AS cantidad
+        FROM reservas r
+        GROUP BY r.horaini,r.horafin
+        ORDER BY cantidad  desc
+        FETCH FIRST 4 ROWS ONLY
+    </select>
+
+    <select id="getReserva" resultMap="ReservationResult">
+        SELECT
+        r.id_reserva
+        FROM reservas r
+    </select>
+
+    <select id="horarioMenorOcupacion" resultMap="ReservationResult">
+        SELECT
+        r.horaini,
+        r.horafin,
+        COUNT(r.horaini) AS cantidad
+        FROM reservas r
+        GROUP BY r.horaini,r.horafin
+        ORDER BY cantidad  asc
+        FETCH FIRST 4 ROWS ONLY
+    </select>
+
+    <update id="cancelReservationSince">
+        update reservas r
+        set estado='cancelada'
+        where r.carnet= #{carnet} and horaini  > #{fechaDesde} and estado = 'activa' and r.recurso = #{recurso} and r.fecha=#{fecha}
+    </update>
+
+    <update id="cancelReservation">
+        update reservas r
+        set estado='cancelada'
+        where r.carnet= #{carnet} and r.horaini= #{horaini} and r.horafin= #{horafin} and r.recurso = #{recurso}
+    </update>
+
+    <update id="cancelReservationComplete">
+        update reservas r
+        set estado='cancelada'
+        where r.carnet= #{carnet} and r.fecha=#{fecha} and r.estado='activa'
+    </update>
+
+    <resultMap type='Reservation' id='ReservationResult'>
+        <id property='id' column='id_reserva'/>
+        <result property='date' column='fecha'/>
+        <result property='startHour' column='horaini'/>
+        <result property='finishHour' column='horafin'/>
+        <result property='status' column='estado'/>
+        <result property='recurrence' column='recurrencia'/>
+        <result property='recurrenceTime' column='fecharecurrencia'/>
+        <result property='license' column="carnet"/>
+        <result property="resource" column="recurso"/>
+        <result property="amount" column="cantidad"/>
+        <association property="resources" javaType="Resource" resultMap="edu.eci.cvds.gestor.persistence.mybatis.mappers.ResourceMapper.ResourceResult" columnPrefix="re_"/>
+        <association property="Uname" javaType="User" resultMap="edu.eci.cvds.gestor.persistence.mybatis.mappers.UserMapper.UserResult" columnPrefix="u_"/>
+    </resultMap>
+
+</mapper>

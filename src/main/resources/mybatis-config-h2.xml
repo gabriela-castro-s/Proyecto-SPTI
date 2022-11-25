@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <typeAliases>
+        <typeAlias type='edu.eci.cvds.samples.entities.Admin' alias='Admin'/>
+        <typeAlias type='edu.eci.cvds.samples.entities.Board' alias='Board'/>
+        <typeAlias type='edu.eci.cvds.samples.entities.Book' alias='Book'/>
+        <typeAlias type='edu.eci.cvds.samples.entities.Community' alias='Community'/>
+        <typeAlias type='edu.eci.cvds.samples.entities.Computer' alias='Computer'/>
+        <typeAlias type='edu.eci.cvds.samples.entities.Reservation' alias='Reservation'/>
+        <typeAlias type='edu.eci.cvds.samples.entities.Resource' alias='Resource'/>
+        <typeAlias type='edu.eci.cvds.samples.entities.Room' alias='Room'/>
+        <typeAlias type='edu.eci.cvds.samples.entities.User' alias='User'/>
+    </typeAliases>
+
+<environments default="development">
+    <environment id="development">
+        <transactionManager type="JDBC" />
+        <dataSource type="POOLED">
+            <property name="driver" value="org.h2.Driver" />
+            <property name="url" value="jdbc:h2:file:./target/db/testdb;MODE=PostgreSQL" />
+            <property name="username" value="anonymous" />
+            <property name="password" value="" />
+        </dataSource>
+    </environment>
+</environments>
+    <mappers>
+        <mapper resource="mappers/AdminMapper.xml"></mapper>
+        <mapper resource="mappers/BoardMapper.xml"></mapper>
+        <mapper resource="mappers/BookMapper.xml"></mapper>
+        <mapper resource="mappers/CommunityMapper.xml"></mapper>
+        <mapper resource="mappers/ComputerMapper.xml"></mapper>
+        <mapper resource="mappers/ReservationMapper.xml"></mapper>
+        <mapper resource="mappers/RoomMapper.xml"></mapper>
+    </mappers>
+</configuration>

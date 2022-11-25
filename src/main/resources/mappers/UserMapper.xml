@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="edu.eci.cvds.gestor.persistence.mybatis.mappers.UserMapper">
+
+    <resultMap type='User' id='UserResult'>
+        <id property='license' column='carnet'/>
+        <result property='name' column='nombre'/>
+        <result property='email' column='correo'/>
+        <result property='password' column='contraseña'/>
+        <result property='role' column='rol'/>
+        <result property="career" column="carrera"/>
+    </resultMap>
+
+    <select parameterType="map" id="consultUsers" resultMap="UserResult">
+        select
+        u.carnet,
+        u.nombre,
+        u.correo,
+        u.contraseña,
+        u.rol,
+        u.carrera
+
+        FROM USUARIOS u
+    </select>
+
+    <select id="getCarnetByEmail" resultType="int">
+        select
+        u.carnet
+
+        FROM USUARIOS u
+        WHERE u.correo = #{email}
+    </select>
+
+    <select parameterType="map" id="consultUser" resultMap="UserResult">
+        select
+        u.nombre
+
+        FROM Usuarios u
+        WHERE u.correo = #{correo};
+    </select>
+
+</mapper>

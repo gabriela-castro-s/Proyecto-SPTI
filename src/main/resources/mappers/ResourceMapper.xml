@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="edu.eci.cvds.gestor.persistence.mybatis.mappers.ResourceMapper">
+
+    <resultMap type='Resource' id='ResourceResult'>
+        <id property='id' column='id_recurso'/>
+        <result property='name' column='nombre'/>
+        <result property='location' column='ubicacion'/>
+        <result property='type' column='tipo'/>
+        <result property='capacity' column='capacidad'/>
+        <result property='internId' column='id_interno'/>
+        <result property='description' column='descripcion'/>
+        <result property='available' column='disponible'/>
+    </resultMap>
+
+    <select parameterType="map" id="consultResources" resultMap="ResourceResult">
+        select
+        r.id_recurso,
+        r.nombre,
+        r.ubicacion,
+        r.tipo,
+        r.capacidad,
+        r.id_interno,
+        r.descripcion,
+        r.disponible
+
+        FROM RECURSOS r;
+    </select>
+
+    <select parameterType="map" id="consultResourcesUser" resultMap="ResourceResult">
+        select
+        r.id_recurso,
+        r.nombre,
+        r.ubicacion,
+        r.tipo,
+        r.capacidad,
+        r.id_interno,
+        r.descripcion,
+        r.disponible
+
+        FROM RECURSOS r  where r.disponible=true;
+    </select>
+
+    <insert id="registerResource" parameterType="map">
+        insert into Recursos(Nombre, Ubicacion, Tipo, Capacidad, ID_interno, Descripcion, Disponible) values (#{nombre}, #{ubicacion}, #{tipo}, #{capacidad}, #{idInterno}, #{descripcion}, #{disponible})
+    </insert>
+</mapper>

@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+  <link rel = "icon" href ="https://observatics.edu.co/wp-content/uploads/sites/20/2019/06/Logo-Escuela-ingenier%C3%ADa.png"/>
+  <title>Recursos</title>
+  <style type="text/css">
+    body {
+
+      background-image:url('https://cdn.discordapp.com/attachments/771508386452734003/963929999612739604/bloquea.jpg');
+      background-attachment: fixed;
+      background-size: cover;
+    }
+    .ui-datatable tbody td{
+      background-color: #a8786a;
+    }
+  </style>
+</h:head>
+<p:button value="Atras" outcome="resource"/>
+<h:body>
+  <h:form>
+    <p:growl id="messages" showDetail="true"/>
+    #{ReservationBean.loadEvents(ReserveBean.getRecurso())}
+    <h:panelGrid columnClasses="value">
+      <p:schedule id="schedule" value="#{ReservationBean.eventModel}" widgetVar="myschedule"
+                  rightHeaderTemplate="agendaDay,agendaWeek,month"
+                  timeZone="ZoneId.systemDefault()" clientTimeZone="local" draggable="false">
+
+                    <p:ajax event="eventSelect" listener="#{ReservationBean.onEventSelect}" update="eventDetails1"
+                            oncomplete="PF('eventDetails1').show();" />
+
+        <p:ajax event="eventMove" listener="#{ReservationBean.onEventMove}" update="messages"/>
+
+        <p:ajax event="eventResize" listener="#{ReservationBean.onEventResize}" update="messages"/>
+
+        <p:ajax event="dateSelect" listener="#{ReservationBean.onDateSelect}" update="eventDetails"
+                oncomplete="PF('eventDialog').show();"/>
+
+      </p:schedule>
+    </h:panelGrid>
+
+        <p:dialog widgetVar="eventDetails1" header="Horario de reserva" showEffect="fade" hideEffect="fade">
+
+            <h:panelGrid id="eventDetails1" border="1" columns="2" styleClass="table-style">
+                <h:outputLabel for="id" value="Id Recurso: " />
+                <h:outputLabel id="id" value="#{ReservationBean.eventId}"/>
+                <h:outputLabel for="nombreu" value="Usuario Responsable: " />
+                <h:outputLabel id="nombreu" value="#{ReservationBean.nombre}"/>
+                <h:outputLabel for="inicial" value="Hora Inicial: " />
+                <h:outputLabel id="inicial" value="#{ReservationBean.ini}"/>
+                <h:outputLabel for="final" value="Hora Final: " />
+                <h:outputLabel id="final" value="#{ReservationBean.fin}"/>
+            </h:panelGrid>
+
+        </p:dialog>
+
+    <p:dialog widgetVar="eventDialog" header="Reservar Recurso" showEffect="clip" hideEffect="clip" modal="true">
+
+      <h:panelGrid id="eventDetails" columns="2">
+
+        <p:outputLabel for="inicio" value="Fecha Inicio:"/>
+        <p:selectOneMenu  id="inicio" binding="#{initHour}" required="true">
+          <f:selectItem itemLabel="Seleccione" itemValue=""/>
+          <f:selectItem itemLabel="7:00" itemValue="7:00"/>
+          <f:selectItem itemLabel="8:00" itemValue="8:00"/>
+          <f:selectItem itemLabel="9:00" itemValue="9:00"/>
+          <f:selectItem itemLabel="10:00" itemValue="10:00"/>
+          <f:selectItem itemLabel="11:00" itemValue="11:00"/>
+          <f:selectItem itemLabel="12:00" itemValue="12:00"/>
+          <f:selectItem itemLabel="13:00" itemValue="13:00"/>
+          <f:selectItem itemLabel="14:00" itemValue="14:00"/>
+          <f:selectItem itemLabel="15:00" itemValue="15:00"/>
+          <f:selectItem itemLabel="16:00" itemValue="16:00"/>
+          <f:selectItem itemLabel="17:00" itemValue="17:00"/>
+          <f:selectItem itemLabel="18:00" itemValue="18:00"/>
+          <f:selectItem itemLabel="19:00" itemValue="19:00"/>
+        </p:selectOneMenu>
+
+        <p:outputLabel for="fin" value="Fecha Fin:"/>
+        <p:selectOneMenu  id="fin" binding="#{finalHour}" required="true">
+          <f:selectItem itemLabel="Seleccione" itemValue=""/>
+          <f:selectItem itemLabel="7:00" itemValue="7:00"/>
+          <f:selectItem itemLabel="8:00" itemValue="8:00"/>
+          <f:selectItem itemLabel="9:00" itemValue="9:00"/>
+          <f:selectItem itemLabel="10:00" itemValue="10:00"/>
+          <f:selectItem itemLabel="11:00" itemValue="11:00"/>
+          <f:selectItem itemLabel="12:00" itemValue="12:00"/>
+          <f:selectItem itemLabel="13:00" itemValue="13:00"/>
+          <f:selectItem itemLabel="14:00" itemValue="14:00"/>
+          <f:selectItem itemLabel="15:00" itemValue="15:00"/>
+          <f:selectItem itemLabel="16:00" itemValue="16:00"/>
+          <f:selectItem itemLabel="17:00" itemValue="17:00"/>
+          <f:selectItem itemLabel="18:00" itemValue="18:00"/>
+          <f:selectItem itemLabel="19:00" itemValue="19:00"/>
+        </p:selectOneMenu>
+
+        <p:outputLabel for="recurrence" value="Tipo de Recurrencia:"/>
+        <p:selectOneMenu  id="recurrence" binding="#{recurrence}" required="true">
+          <f:selectItem itemLabel="Seleccione" itemValue=""/>
+          <f:selectItem itemLabel="Diaria" itemValue="diaria"/>
+          <f:selectItem itemLabel="Semanal" itemValue="semanal"/>
+          <f:selectItem itemLabel="Mensual" itemValue="mensual"/>
+          <f:selectItem itemLabel="Una sola vez" itemValue="oneTime"/>
+        </p:selectOneMenu>
+        <p:outputLabel for="daterecurrence" value="Fecha Recurrencia:"/>
+        <p:calendar id="daterecurrence" value="#{date}" pattern="dd/MM/yyyy" mindate="today" maxdate="20/05/2022" required="true"/>
+
+      </h:panelGrid>
+        <h:commandButton value="Reservar" type="submit" actionListener="#{ReserveBean.checkReserve(ReservationBean.currentDay,initHour.value,finalHour.value,recurrence.value,date)}"
+                         oncomplete="PF('myschedule').update();PF('eventDialog').hide();">
+            <f:param name="recurso" value="#{param['recurso']}"/>
+        </h:commandButton>
+
+    </p:dialog>
+
+        <p:confirmDialog widgetVar="warningManyDialog"  message="#{ReserveBean.manyMessage}">
+          <h:commandButton value="Confirmar" oncomplete="PF('warningManyDialog').hide();"
+                           action="#{ReserveBean.reserve(ReservationBean.currentDay,initHour.value,finalHour.value,recurrence.value,date)}" />
+          <h:commandButton value="Cancelar"   onclick="PF('warningManyDialog').hide();"/>
+        </p:confirmDialog>
+
+  </h:form>
+</h:body>
+<script>
+    today = Date("dd/MM/yyyy");
+</script>
+</html>

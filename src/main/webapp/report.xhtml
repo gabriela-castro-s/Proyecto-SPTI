@@ -1,0 +1,216 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+    <title>Reportes</title>
+    <link rel = "icon" href ="https://observatics.edu.co/wp-content/uploads/sites/20/2019/06/Logo-Escuela-ingenier%C3%ADa.png"/>
+    <style type="text/css">
+        body {
+            background-image:url('https://cdn.discordapp.com/attachments/771508386452734003/963929999612739604/bloquea.jpg');
+            background-attachment: fixed;
+            background-size: cover;
+        }
+
+        tbody tr:nth-child(odd) {
+          background-color: #E8A58E;
+        }
+
+        tbody tr:nth-child(even) {
+          background-color: #E99071;
+        }
+
+        tbody tr {
+          background-color: #ED7D31;
+        }
+
+        th, td {
+            width: 40%;
+            text-align: center;
+            border: 2px solid #000;
+        }
+
+        table {
+          table-layout: fixed;
+          border-collapse: collapse;
+          border: 3px solid #000;
+          background-color: #ED7D31;
+        }
+
+    </style>
+</h:head>
+<p:button value="Atras" outcome="resource"/>
+<h:body>
+    <h:form>
+    <center><h1 style="background-color:#ED7D31; width:300px"> Reportes </h1></center>
+    <h2 style="background-color:#ED7D31; width:300px">Recursos Mas Usados</h2>
+    <br/>
+    <div><p:chart type="bar" model="#{recursosMasUsados.grafico}"/></div>
+    <div>
+        <table id="recursosMasUsados" class="display table table-bordered table-striped">
+            <thead>
+            <tr>
+            <th>Recurso</th>
+            <th>Cantidad de reservas</th>
+            </tr>
+            </thead>
+            <tbody>
+            <ui:repeat var="reserva" value="#{ReservationBean.consultarRecursosMasUsados()}">
+                <tr>
+                    <td>#{reserva.getResources().getName()}</td>
+                    <td>#{reserva.amount}</td>
+                </tr>
+            </ui:repeat>
+            </tbody>
+        </table>
+<!--        <p:dataTable id="recursosMasUsadoss" var="reserva" value="#{ReservationBean.consultarRecursosMasUsados()}"-->
+<!--                     class="tabla">-->
+<!--        <p:column headerText="Recurso" class="titulo">-->
+<!--            <h:outputText value="#{reserva.getResources().getName()}"/>-->
+<!--        </p:column>-->
+<!--        <p:column headerText="Cantidad de reservas" class="titulo">-->
+<!--            <h:outputText value="#{reserva.amount}"/>-->
+<!--        </p:column>-->
+<!--        </p:dataTable>-->
+
+<!--        <p:commandButton value="XLS" styleClass="p-mr-2 p-mb-2">-->
+<!--            <p:dataExporter type="xls" target="recursosMasUsadoss" fileName="prueba"/>-->
+<!--        </p:commandButton>-->
+    </div>
+    <br/>
+    <h2 style="background-color:#ED7D31; width:300px">Recursos Menos Usados</h2>
+    <div><p:chart type="bar" model="#{recursosMenosUsados.grafico}"/></div>
+    <div>
+        <table id="recursosMenosUsados" class="display table table-bordered table-striped">
+            <thead>
+            <tr>
+                <th>Recurso</th>
+                <th>Cantidad de reservas</th>
+            </tr>
+            </thead>
+            <tbody>
+            <ui:repeat var="reserva" value="#{ReservationBean.consultarRecursosMenosUsados()}">
+                <tr>
+                    <td>#{reserva.getResources().getName()}</td>
+                    <td>#{reserva.amount}</td>
+                </tr>
+            </ui:repeat>
+            </tbody>
+        </table>
+    </div>
+    <br/>
+    <h2 style="background-color:#ED7D31; width:300px">Reservas por carrera</h2>
+    <div><p:chart type="bar" model="#{recursosPorCarrera.grafico}"/></div>
+    <div>
+        <table id="recursosPorCarrera" class="display table table-bordered table-striped">
+            <thead>
+            <tr>
+                <th>Carrera</th>
+                <th>Cantidad de reservas</th>
+            </tr>
+            </thead>
+            <tbody>
+            <ui:repeat var="reserva" value="#{ReservationBean.consultarReservaPorCarrera()}">
+                <tr>
+                    <td>#{reserva.getUname().getCareer()}</td>
+                    <td>#{reserva.amount}</td>
+                </tr>
+            </ui:repeat>
+            </tbody>
+        </table>
+    </div>
+
+    <br/>
+    <h2 style="background-color:#ED7D31; width:300px">Reservas Recurrentes</h2>
+    <div><p:chart type="bar" model="#{reservasRecurrentes.grafico}"/></div>
+    <div>
+        <table id="reservasRecurrentes" class="display table table-bordered table-striped">
+            <thead>
+            <tr>
+                <th>Recurso</th>
+                <th>Cantidad de reservas recurrentes</th>
+            </tr>
+            </thead>
+            <tbody>
+            <ui:repeat var="reserva" value="#{ReservationBean.consultarReservaRecurrentes()}">
+                <tr>
+                    <td>#{reserva.getResources().getName()}</td>
+                    <td>#{reserva.amount}</td>
+                </tr>
+            </ui:repeat>
+            </tbody>
+        </table>
+    </div>
+
+    <br/>
+    <h2 style="background-color:#ED7D31; width:300px">Reservas Canceladas</h2>
+    <div><p:chart type="bar" model="#{reservasCanceladas.grafico}"/></div>
+    <div>
+        <table id="reservasCanceladas" class="display table table-bordered table-striped">
+            <thead>
+            <tr>
+                <th>Recurso</th>
+                <th>Cantidad de reservas canceladas</th>
+            </tr>
+            </thead>
+            <tbody>
+            <ui:repeat var="reserva" value="#{ReservationBean.consultarReservasCanceladas()}">
+                <tr>
+                    <td>#{reserva.getResources().getName()}</td>
+                    <td>#{reserva.amount}</td>
+                </tr>
+            </ui:repeat>
+            </tbody>
+        </table>
+    </div>
+
+    <br/>
+    <h2 style="background-color:#ED7D31; width:300px">Horarios con mayor ocupacion</h2>
+    <div>
+        <table id="horarioMayorOcupacion" class="display table table-bordered table-striped">
+            <thead>
+            <tr>
+                <th>Horario Inicial</th>
+                <th>Horario Final</th>
+                <th>Cantidad de reservas</th>
+            </tr>
+            </thead>
+            <tbody>
+            <ui:repeat var="reserva" value="#{ReservationBean.consultarHorarioMayorOcupacion()}">
+                <tr>
+                    <td>#{reserva.getStartHour()}</td>
+                    <td>#{reserva.getFinishHour()}</td>
+                    <td>#{reserva.amount}</td>
+                </tr>
+            </ui:repeat>
+            </tbody>
+        </table>
+    </div>
+
+    <br/>
+    <h2 style="background-color:#ED7D31; width:300px">Horarios con menor ocupacion</h2>
+    <div>
+        <table id="horarioMenorOcupacion" class="display table table-bordered table-striped">
+            <thead>
+            <tr>
+                <th>Horario Inicial</th>
+                <th>Horario Final</th>
+                <th>Cantidad de reservas</th>
+            </tr>
+            </thead>
+            <tbody>
+            <ui:repeat var="reserva" value="#{ReservationBean.consultarHorarioMenorOcupacion()}">
+                <tr>
+                    <td>#{reserva.getStartHour()}</td>
+                    <td>#{reserva.getFinishHour()}</td>
+                    <td>#{reserva.amount}</td>
+                </tr>
+            </ui:repeat>
+            </tbody>
+        </table>
+    </div>
+    </h:form>
+</h:body>
+</html>

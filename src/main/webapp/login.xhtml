@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <link rel = "icon" href ="https://observatics.edu.co/wp-content/uploads/sites/20/2019/06/Logo-Escuela-ingenier%C3%ADa.png"/>
+    <title> LOG IN </title>
+
+<style type="text/css">
+        body {
+            background-image:url('https://cdn.discordapp.com/attachments/771508386452734003/963927995926609950/fondo.jpg');
+            background-attachment: fixed;
+            background-size: cover;
+        }
+        .row{
+            margin: 5% 0 0 -2%;
+        }
+        .centrar{
+            display:flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #a{
+            position:relative;
+            left:50%;
+            transform:translate(-50%,-28ch);
+        }
+        .btn{
+            border: solid 1px;
+            padding: 5px 10px;
+        }
+        .btn-black{
+            border-color:black;
+            color:black;
+        }
+        .btn-black:hover{
+            background-color:black;
+            border-color:white;
+            color:white;
+        }
+</style>
+</h:head>
+<h:body>
+<!--    <center>-->
+        <h:form>
+            <p:messages id="messages" showDetail="true" closable="true">
+                <p:autoUpdate/>
+            </p:messages>
+            <div class="row" style="display:grid; grid-template-rows:auto; row-gap:1ch ;justify-content: center; align-items: center;">
+                <div class="centrar">
+                    <img src="https://cdn.discordapp.com/attachments/771508386452734003/963930370640871424/imagenlogo.png" alt="Logo ECI" width="300" height="100" />
+                </div>
+                <div class="centrar">
+                    <img src="https://cdn.discordapp.com/attachments/771508386452734003/963930258162200626/fondorojo.png" alt="Rojo ECI" width="350" height="250" />
+                </div>
+                <div class="centrar" id="a">
+                    <p:outputLabel for="txtUsuario" value="Correo"/>
+                </div>
+                <div class="centrar" id="a">
+                    <p:inputText id="txtUsuario" binding="#{email}"/>
+                </div>
+                <div class="centrar" id="a">
+                    <p:outputLabel for="txtClave" value="Contraseña"/>
+                </div>
+                <div class="centrar" id="a">
+                    <p:inputText id="txtClave" type="password"  binding="#{password}"/>
+                </div>
+                <div class="centrar" id="a">
+                    <p:commandButton class="btn btn-black" value="Iniciar Sesion"  actionListener="#{LoginBean.singIn(email.value,password.value)}"/>
+                </div>
+<!--                </h:panelGrid>-->
+    <!--        <p:link value="Crear Cuenta" outcome="usuario"/>-->
+            </div>
+        </h:form>
+<!--    </center>-->
+</h:body>
+</html>
